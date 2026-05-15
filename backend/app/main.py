@@ -14,8 +14,8 @@ app = Flask(__name__)
 app.secret_key = os.getenv("SECRET_KEY", "dev-secret-key")
 
 
-# ── Blueprints (se irán agregando fase a fase) ──────────────
-# from app.routers.especialidad import especialidad_bp
+# ── Blueprints ──────────────
+from app.routers.especialidad import especialidad_bp
 # from app.routers.profesional  import profesional_bp
 # from app.routers.cliente      import cliente_bp
 # from app.routers.servicio     import servicio_bp
@@ -24,7 +24,7 @@ app.secret_key = os.getenv("SECRET_KEY", "dev-secret-key")
 # from app.routers.notificacion import notificacion_bp
 # from app.routers.auditoria    import auditoria_bp
 
-# app.register_blueprint(especialidad_bp)
+app.register_blueprint(especialidad_bp)
 # app.register_blueprint(profesional_bp)
 # app.register_blueprint(cliente_bp)
 # app.register_blueprint(servicio_bp)

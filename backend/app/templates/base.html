@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Reservas-Citas{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+    <nav>
+        <div class="nav-brand">Reservas-Citas</div>
+        <ul>
+            <li><a href="/especialidades">Especialidades</a></li>
+            <li><a href="/profesionales">Profesionales</a></li>
+            <li><a href="/clientes">Clientes</a></li>
+            <li><a href="/servicios">Servicios</a></li>
+            <li><a href="/slots">Slots</a></li>
+            <li><a href="/citas">Citas</a></li>
+            <li><a href="/auditoria">Auditoría</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+        <p>Reservas-Citas &copy; 2026 — John Sebastian Mantilla Manzano</p>
+    </footer>
+
+</body>
+</html>

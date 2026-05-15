@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}{{ accion }} Especialidad{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>{{ accion }} Especialidad</h1>
+    <a href="{{ url_for('especialidad.listar') }}" class="btn btn-primary">← Volver</a>
+</div>
+
+<div class="form-card">
+    <form method="POST">
+        <div class="form-group">
+            <label for="nombre">Nombre *</label>
+            <input type="text" id="nombre" name="nombre"
+                   value="{{ especialidad.nombre if especialidad else '' }}"
+                   required>
+        </div>
+        <div class="form-group">
+            <label for="descripcion">Descripción</label>
+            <textarea id="descripcion" name="descripcion">{{ especialidad.descripcion if especialidad else '' }}</textarea>
+        </div>
+        <button type="submit" class="btn btn-success">{{ accion }}</button>
+    </form>
+</div>
+{% endblock %}
