@@ -107,7 +107,6 @@ CREATE TRIGGER trg_auditoria_notificacion
 
 -- ------------------------------------------------------------
 -- 4. PRUEBA — consulta de auditoría por fecha (bloque anónimo)
--- Entregable académico requerido
 -- ------------------------------------------------------------
 DO $$
 DECLARE

@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block title %}Citas{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Citas</h1>
+    <a href="{{ url_for('cita.crear') }}" class="btn btn-primary">+ Nueva</a>
+</div>
+
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Cliente</th>
+            <th>Profesional</th>
+            <th>Servicio</th>
+            <th>Inicio</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for c in citas %}
+        <tr>
+            <td>{{ c.id_cita }}</td>
+            <td>{{ c.cliente_nombre }}</td>
+            <td>{{ c.profesional_nombre }}</td>
+            <td>{{ c.servicio_nombre }}</td>
+            <td>{{ c.fecha_hora_inicio.strftime('%Y-%m-%d %H:%M') }}</td>
+            <td>
+                <span class="badge badge-{{ c.estado.lower() }}">{{ c.estado }}</span>
+            </td>
+            <td>
+                {% if c.estado in ('PENDIENTE', 'CONFIRMADA') %}
+                <form method="POST"
+                      action="{{ url_for('cita.completar', id=c.id_cita) }}"
+                      style="display:inline"
+                      onsubmit="return confirm('¿Marcar como completada?')">
+                    <button type="submit" class="btn btn-success">Completar</button>
+                </form>
+                <form method="POST"
+                      action="{{ url_for('cita.cancelar', id=c.id_cita) }}"
+                      style="display:inline"
+                      onsubmit="return confirm('¿Cancelar esta cita?')">
+                    <button type="submit" class="btn btn-danger">Cancelar</button>
+                </form>
+                {% else %}
+                <span style="color:#999; font-size:0.85rem;">{{ c.estado }}</span>
+                {% endif %}
+            </td>
+        </tr>
+        {% else %}
+        <tr><td colspan="7">No hay citas registradas.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
