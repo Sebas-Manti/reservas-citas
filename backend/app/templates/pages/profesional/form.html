@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block title %}{{ accion }} Profesional{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>{{ accion }} Profesional</h1>
+    <a href="{{ url_for('profesional.listar') }}" class="btn btn-primary">← Volver</a>
+</div>
+
+<div class="form-card">
+    <form method="POST">
+        <div class="form-group">
+            <label for="nombre">Nombre *</label>
+            <input type="text" id="nombre" name="nombre"
+                   value="{{ profesional.nombre if profesional else '' }}" required>
+        </div>
+        <div class="form-group">
+            <label for="apellido">Apellido *</label>
+            <input type="text" id="apellido" name="apellido"
+                   value="{{ profesional.apellido if profesional else '' }}" required>
+        </div>
+        <div class="form-group">
+            <label for="email">Email *</label>
+            <input type="email" id="email" name="email"
+                   value="{{ profesional.email if profesional else '' }}" required>
+        </div>
+        <div class="form-group">
+            <label for="id_especialidad">Especialidad</label>
+            <select id="id_especialidad" name="id_especialidad">
+                <option value="">— Sin especialidad —</option>
+                {% for e in especialidades %}
+                <option value="{{ e.id_especialidad }}"
+                    {% if profesional and profesional.id_especialidad == e.id_especialidad %}
+                        selected
+                    {% endif %}>
+                    {{ e.nombre }}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+        {% if profesional %}
+        <div class="form-group">
+            <label>
+                <input type="checkbox" name="activo"
+                       {{ 'checked' if profesional.activo else '' }}>
+                Activo
+            </label>
+        </div>
+        {% endif %}
+        <button type="submit" class="btn btn-success">{{ accion }}</button>
+    </form>
+</div>
+{% endblock %}
