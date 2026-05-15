@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}{{ accion }} Servicio{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>{{ accion }} Servicio</h1>
+    <a href="{{ url_for('servicio.listar') }}" class="btn btn-primary">← Volver</a>
+</div>
+
+<div class="form-card">
+    <form method="POST">
+        <div class="form-group">
+            <label for="nombre">Nombre *</label>
+            <input type="text" id="nombre" name="nombre"
+                   value="{{ servicio.nombre if servicio else '' }}" required>
+        </div>
+        <div class="form-group">
+            <label for="duracion_min">Duración (minutos) *</label>
+            <input type="number" id="duracion_min" name="duracion_min"
+                   min="1"
+                   value="{{ servicio.duracion_min if servicio else '' }}" required>
+        </div>
+        <div class="form-group">
+            <label for="precio">Precio *</label>
+            <input type="number" id="precio" name="precio"
+                   min="0" step="0.01"
+                   value="{{ servicio.precio if servicio else '' }}" required>
+        </div>
+        <div class="form-group">
+            <label for="id_especialidad">Especialidad</label>
+            <select id="id_especialidad" name="id_especialidad">
+                <option value="">— Sin especialidad —</option>
+                {% for e in especialidades %}
+                <option value="{{ e.id_especialidad }}"
+                    {% if servicio and servicio.id_especialidad == e.id_especialidad %}
+                        selected
+                    {% endif %}>
+                    {{ e.nombre }}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+        <button type="submit" class="btn btn-success">{{ accion }}</button>
+    </form>
+</div>
+{% endblock %}

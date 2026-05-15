@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}Servicios{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Servicios</h1>
+    <a href="{{ url_for('servicio.crear') }}" class="btn btn-primary">+ Nuevo</a>
+</div>
+
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Duración (min)</th>
+            <th>Precio</th>
+            <th>Especialidad</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for s in servicios %}
+        <tr>
+            <td>{{ s.id_servicio }}</td>
+            <td>{{ s.nombre }}</td>
+            <td>{{ s.duracion_min }}</td>
+            <td>${{ "{:,.0f}".format(s.precio) }}</td>
+            <td>{{ s.especialidad_nombre or '—' }}</td>
+            <td>
+                <a href="{{ url_for('servicio.editar', id=s.id_servicio) }}"
+                   class="btn btn-warning">Editar</a>
+                <form method="POST"
+                      action="{{ url_for('servicio.eliminar', id=s.id_servicio) }}"
+                      style="display:inline"
+                      onsubmit="return confirm('¿Eliminar este servicio?')">
+                    <button type="submit" class="btn btn-danger">Eliminar</button>
+                </form>
+            </td>
+        </tr>
+        {% else %}
+        <tr><td colspan="6">No hay servicios registrados.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
