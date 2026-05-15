@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% block title %}Auditoría{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Reporte de Auditoría</h1>
+</div>
+
+<!-- Filtros -->
+<div class="form-card" style="max-width:100%; margin-bottom:1.5rem;">
+    <form method="GET" style="display:flex; gap:1rem; flex-wrap:wrap; align-items:flex-end;">
+        <div class="form-group" style="margin:0; flex:1; min-width:150px;">
+            <label>Fecha</label>
+            <input type="date" name="fecha" value="{{ filtro_fecha }}">
+        </div>
+        <div class="form-group" style="margin:0; flex:1; min-width:150px;">
+            <label>Tabla</label>
+            <select name="tabla">
+                <option value="">— Todas —</option>
+                {% for t in tablas %}
+                <option value="{{ t.tabla }}"
+                    {{ 'selected' if filtro_tabla == t.tabla else '' }}>
+                    {{ t.tabla }}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group" style="margin:0; flex:1; min-width:150px;">
+            <label>Operación</label>
+            <select name="operacion">
+                <option value="">— Todas —</option>
+                <option value="INSERT"  {{ 'selected' if filtro_operacion == 'INSERT'  else '' }}>INSERT</option>
+                <option value="UPDATE"  {{ 'selected' if filtro_operacion == 'UPDATE'  else '' }}>UPDATE</option>
+                <option value="DELETE"  {{ 'selected' if filtro_operacion == 'DELETE'  else '' }}>DELETE</option>
+            </select>
+        </div>
+        <div style="display:flex; gap:0.5rem;">
+            <button type="submit" class="btn btn-primary">Filtrar</button>
+            <a href="/auditoria" class="btn btn-warning">Limpiar</a>
+        </div>
+    </form>
+</div>
+
+<!-- Tabla -->
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Tabla</th>
+            <th>Operación</th>
+            <th>Usuario BD</th>
+            <th>Fecha y Hora</th>
+            <th>Datos Antes</th>
+            <th>Datos Después</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for r in registros %}
+        <tr>
+            <td>{{ r.id_auditoria }}</td>
+            <td><span class="badge badge-tabla">{{ r.tabla }}</span></td>
+            <td>
+                <span class="badge badge-op-{{ r.operacion.lower() }}">
+                    {{ r.operacion }}
+                </span>
+            </td>
+            <td>{{ r.usuario_bd }}</td>
+            <td>{{ r.fecha_hora.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+            <td>
+                {% if r.datos_antes %}
+                <details>
+                    <summary>Ver</summary>
+                    <pre class="json-pre">{{ r.datos_antes }}</pre>
+                </details>
+                {% else %}—{% endif %}
+            </td>
+            <td>
+                {% if r.datos_despues %}
+                <details>
+                    <summary>Ver</summary>
+                    <pre class="json-pre">{{ r.datos_despues }}</pre>
+                </details>
+                {% else %}—{% endif %}
+            </td>
+        </tr>
+        {% else %}
+        <tr><td colspan="7">No hay registros de auditoría.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
