@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}{{ accion }} Slot{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>{{ accion }} Slot</h1>
+    <a href="{{ url_for('slot.listar') }}" class="btn btn-primary">← Volver</a>
+</div>
+
+<div class="form-card">
+    <form method="POST">
+        <div class="form-group">
+            <label for="id_profesional">Profesional *</label>
+            <select id="id_profesional" name="id_profesional" required>
+                <option value="">— Seleccionar —</option>
+                {% for p in profesionales %}
+                <option value="{{ p.id_profesional }}"
+                    {% if slot and slot.id_profesional == p.id_profesional %}
+                        selected
+                    {% endif %}>
+                    {{ p.nombre_completo }}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="fecha_hora_inicio">Fecha y hora inicio *</label>
+            <input type="datetime-local" id="fecha_hora_inicio" name="fecha_hora_inicio"
+                   value="{{ slot.fecha_hora_inicio.strftime('%Y-%m-%dT%H:%M') if slot else '' }}"
+                   required>
+        </div>
+        <div class="form-group">
+            <label for="fecha_hora_fin">Fecha y hora fin *</label>
+            <input type="datetime-local" id="fecha_hora_fin" name="fecha_hora_fin"
+                   value="{{ slot.fecha_hora_fin.strftime('%Y-%m-%dT%H:%M') if slot else '' }}"
+                   required>
+        </div>
+        {% if slot %}
+        <div class="form-group">
+            <label for="estado">Estado</label>
+            <select id="estado" name="estado">
+                <option value="LIBRE"   {{ 'selected' if slot.estado == 'LIBRE'   else '' }}>LIBRE</option>
+                <option value="OCUPADO" {{ 'selected' if slot.estado == 'OCUPADO' else '' }}>OCUPADO</option>
+            </select>
+        </div>
+        {% endif %}
+        <button type="submit" class="btn btn-success">{{ accion }}</button>
+    </form>
+</div>
+{% endblock %}

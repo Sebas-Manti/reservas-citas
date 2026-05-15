@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block title %}Slots{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Slots de Disponibilidad</h1>
+    <a href="{{ url_for('slot.crear') }}" class="btn btn-primary">+ Nuevo</a>
+</div>
+
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Profesional</th>
+            <th>Inicio</th>
+            <th>Fin</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for s in slots %}
+        <tr>
+            <td>{{ s.id_slot }}</td>
+            <td>{{ s.profesional_nombre or '—' }}</td>
+            <td>{{ s.fecha_hora_inicio.strftime('%Y-%m-%d %H:%M') }}</td>
+            <td>{{ s.fecha_hora_fin.strftime('%H:%M') }}</td>
+            <td>
+                <span class="badge {{ 'badge-libre' if s.estado == 'LIBRE' else 'badge-ocupado' }}">
+                    {{ s.estado }}
+                </span>
+            </td>
+            <td>
+                <a href="{{ url_for('slot.editar', id=s.id_slot) }}"
+                   class="btn btn-warning">Editar</a>
+                <form method="POST"
+                      action="{{ url_for('slot.eliminar', id=s.id_slot) }}"
+                      style="display:inline"
+                      onsubmit="return confirm('¿Eliminar este slot?')">
+                    <button type="submit" class="btn btn-danger">Eliminar</button>
+                </form>
+            </td>
+        </tr>
+        {% else %}
+        <tr><td colspan="6">No hay slots registrados.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
