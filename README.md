@@ -1,9 +1,9 @@
 # Reservas-Citas 🏥
 
 Sistema web de reserva de citas médicas desarrollado con Flask y PostgreSQL.
-Proyecto académico — Bases de Datos II, Fundación Universitaria Konrad Lorenz.
+Proyecto académico — Bases de Datos
 
-**Estudiante:** John Sebastian Mantilla Manzano
+**John Sebastian Mantilla Manzano**
 
 ---
 
