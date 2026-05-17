@@ -10,15 +10,42 @@
 
     <nav>
         <div class="nav-brand">Reservas-Citas</div>
+        {% if session.usuario_id %}
         <ul>
+            {% set p = session.permisos %}
+            {% if p.get('especialidades', {}).get('ver') %}
             <li><a href="/especialidades">Especialidades</a></li>
+            {% endif %}
+            {% if p.get('profesionales', {}).get('ver') %}
             <li><a href="/profesionales">Profesionales</a></li>
+            {% endif %}
+            {% if p.get('clientes', {}).get('ver') %}
             <li><a href="/clientes">Clientes</a></li>
+            {% endif %}
+            {% if p.get('servicios', {}).get('ver') %}
             <li><a href="/servicios">Servicios</a></li>
+            {% endif %}
+            {% if p.get('slots', {}).get('ver') %}
             <li><a href="/slots">Slots</a></li>
+            {% endif %}
+            {% if p.get('citas', {}).get('ver') %}
             <li><a href="/citas">Citas</a></li>
+            {% endif %}
+            {% if p.get('notificaciones', {}).get('ver') %}
+            <li><a href="/notificaciones">Notificaciones</a></li>
+            {% endif %}
+            {% if p.get('auditoria', {}).get('ver') %}
             <li><a href="/auditoria">Auditoría</a></li>
+            {% endif %}
+            {% if session.usuario_perfil == 'admin' %}
+            <li><a href="/usuarios">Usuarios</a></li>
+            {% endif %}
         </ul>
+        <div class="nav-user">
+            <span>{{ session.usuario_email }}</span>
+            <a href="{{ url_for('auth.logout') }}" class="btn btn-warning">Salir</a>
+        </div>
+        {% endif %}
     </nav>
 
     <main>

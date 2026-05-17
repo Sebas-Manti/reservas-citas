@@ -109,3 +109,47 @@ CREATE TABLE notificacion (
     mensaje     TEXT,
     fecha_envio TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+-- ------------------------------------------------------------
+-- 8. PERFIL
+-- ------------------------------------------------------------
+CREATE TABLE perfil (
+    id_perfil SERIAL PRIMARY KEY,
+    nombre    VARCHAR(20) NOT NULL UNIQUE
+             CHECK (nombre IN ('admin','profesional','cliente'))
+);
+
+-- ------------------------------------------------------------
+-- 9. ACTIVIDAD
+-- ------------------------------------------------------------
+CREATE TABLE actividad (
+    id_actividad SERIAL PRIMARY KEY,
+    nombre       VARCHAR(50) NOT NULL UNIQUE,
+    descripcion  TEXT
+);
+
+-- ------------------------------------------------------------
+-- 10. GESTION_ACTIVIDAD
+-- ------------------------------------------------------------
+CREATE TABLE gestion_actividad (
+    id_gestion      SERIAL PRIMARY KEY,
+    id_perfil       INT NOT NULL REFERENCES perfil(id_perfil) ON DELETE CASCADE,
+    id_actividad    INT NOT NULL REFERENCES actividad(id_actividad) ON DELETE CASCADE,
+    puede_ver       BOOLEAN DEFAULT FALSE,
+    puede_crear     BOOLEAN DEFAULT FALSE,
+    puede_editar    BOOLEAN DEFAULT FALSE,
+    puede_eliminar  BOOLEAN DEFAULT FALSE,
+    UNIQUE (id_perfil, id_actividad)
+);
+
+-- ------------------------------------------------------------
+-- 11. USUARIO
+-- ------------------------------------------------------------
+CREATE TABLE usuario (
+    id_usuario     SERIAL PRIMARY KEY,
+    email          VARCHAR(150) NOT NULL UNIQUE,
+    password_hash  VARCHAR(255) NOT NULL,
+    id_perfil      INT NOT NULL REFERENCES perfil(id_perfil) ON DELETE RESTRICT,
+    id_cliente     INT REFERENCES cliente(id_cliente) ON DELETE SET NULL,
+    id_profesional INT REFERENCES profesional(id_profesional) ON DELETE SET NULL
+);

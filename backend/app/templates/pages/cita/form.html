@@ -43,8 +43,18 @@
             </select>
         </div>
         <div class="form-group">
-            <label for="notas">Notas</label>
-            <textarea id="notas" name="notas"></textarea>
+            <label>Cliente *</label>
+            {% if es_cliente %}
+                <input type="text" value="{{ clientes[0].nombre_completo }}" disabled>
+                <input type="hidden" name="id_cliente" value="{{ clientes[0].id_cliente }}">
+            {% else %}
+                <select id="id_cliente" name="id_cliente" required>
+                    <option value="">— Seleccionar —</option>
+                    {% for c in clientes %}
+                    <option value="{{ c.id_cliente }}">{{ c.nombre_completo }}</option>
+                    {% endfor %}
+                </select>
+            {% endif %}
         </div>
         <button type="submit" class="btn btn-success">Reservar Cita</button>
     </form>

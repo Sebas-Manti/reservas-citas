@@ -12,7 +12,7 @@ body {
 
 /* ── Nav ── */
 nav {
-    background: #1a1a2e;
+    background: #74704b;
     color: white;
     padding: 0.8rem 2rem;
     display: flex;
@@ -73,7 +73,7 @@ table {
 }
 
 th {
-    background: #1a1a2e;
+    background: #74704b;
     color: white;
     padding: 0.75rem 1rem;
     text-align: left;
@@ -101,7 +101,7 @@ tr:hover td { background: #f9f9f9; }
     font-family: inherit;
 }
 
-.btn-primary  { background: #1a1a2e; color: white; }
+.btn-primary  { background: #74704b; color: white; }
 .btn-danger   { background: #dc3545; color: white; }
 .btn-warning  { background: #ffc107; color: #222;  }
 .btn-success  { background: #28a745; color: white; }
@@ -187,6 +187,22 @@ footer {
 
 details summary {
     cursor: pointer;
-    color: #1a1a2e;
+    color: #74704b;
     font-size: 0.85rem;
 }
+
+.nav-user {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.nav-user span {
+    color: #aaa;
+    font-size: 0.85rem;
+}
+
+.badge-perfil-admin        { background: #1a1a2e; color: white; }
+.badge-perfil-profesional  { background: #d1ecf1; color: #0c5460; }
+.badge-perfil-cliente      { background: #d4edda; color: #155724; }

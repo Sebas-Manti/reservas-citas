@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block title %}{{ accion }} Usuario{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>{{ accion }} Usuario</h1>
+    <a href="{{ url_for('usuario.listar') }}" class="btn btn-primary">← Volver</a>
+</div>
+
+<div class="form-card">
+    <form method="POST">
+        <div class="form-group">
+            <label for="email">Email *</label>
+            <input type="email" id="email" name="email"
+                   value="{{ usuario.email if usuario else '' }}" required>
+        </div>
+        <div class="form-group">
+            <label for="password">
+                Contraseña {% if usuario %}(dejar vacío para no cambiar){% else %}*{% endif %}
+            </label>
+            <input type="password" id="password" name="password"
+                   {{ 'required' if not usuario else '' }}>
+        </div>
+        <div class="form-group">
+            <label for="id_perfil">Perfil *</label>
+            <select id="id_perfil" name="id_perfil" required>
+                <option value="">— Seleccionar —</option>
+                {% for p in perfiles %}
+                <option value="{{ p.id_perfil }}"
+                    {% if usuario and usuario.id_perfil == p.id_perfil %}selected{% endif %}>
+                    {{ p.nombre }}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="id_cliente">Cliente vinculado</label>
+            <select id="id_cliente" name="id_cliente">
+                <option value="">— Ninguno —</option>
+                {% for c in clientes %}
+                <option value="{{ c.id_cliente }}"
+                    {% if usuario and usuario.id_cliente == c.id_cliente %}selected{% endif %}>
+                    {{ c.nombre_completo }}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="id_profesional">Profesional vinculado</label>
+            <select id="id_profesional" name="id_profesional">
+                <option value="">— Ninguno —</option>
+                {% for p in profesionales %}
+                <option value="{{ p.id_profesional }}"
+                    {% if usuario and usuario.id_profesional == p.id_profesional %}selected{% endif %}>
+                    {{ p.nombre_completo }}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+        <button type="submit" class="btn btn-success">{{ accion }}</button>
+    </form>
+</div>
+{% endblock %}

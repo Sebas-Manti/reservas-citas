@@ -76,6 +76,10 @@ DROP TRIGGER IF EXISTS trg_auditoria_servicio      ON servicio;
 DROP TRIGGER IF EXISTS trg_auditoria_slot          ON slot;
 DROP TRIGGER IF EXISTS trg_auditoria_cita          ON cita;
 DROP TRIGGER IF EXISTS trg_auditoria_notificacion  ON notificacion;
+DROP TRIGGER IF EXISTS trg_auditoria_perfil            ON perfil;
+DROP TRIGGER IF EXISTS trg_auditoria_actividad         ON actividad;
+DROP TRIGGER IF EXISTS trg_auditoria_gestion_actividad ON gestion_actividad;
+DROP TRIGGER IF EXISTS trg_auditoria_usuario           ON usuario;
 
 CREATE TRIGGER trg_auditoria_especialidad
     AFTER INSERT OR UPDATE OR DELETE ON especialidad
@@ -103,6 +107,22 @@ CREATE TRIGGER trg_auditoria_cita
 
 CREATE TRIGGER trg_auditoria_notificacion
     AFTER INSERT OR UPDATE OR DELETE ON notificacion
+    FOR EACH ROW EXECUTE FUNCTION fn_auditoria();
+
+CREATE TRIGGER trg_auditoria_perfil
+    AFTER INSERT OR UPDATE OR DELETE ON perfil
+    FOR EACH ROW EXECUTE FUNCTION fn_auditoria();
+
+CREATE TRIGGER trg_auditoria_actividad
+    AFTER INSERT OR UPDATE OR DELETE ON actividad
+    FOR EACH ROW EXECUTE FUNCTION fn_auditoria();
+
+CREATE TRIGGER trg_auditoria_gestion_actividad
+    AFTER INSERT OR UPDATE OR DELETE ON gestion_actividad
+    FOR EACH ROW EXECUTE FUNCTION fn_auditoria();
+
+CREATE TRIGGER trg_auditoria_usuario
+    AFTER INSERT OR UPDATE OR DELETE ON usuario
     FOR EACH ROW EXECUTE FUNCTION fn_auditoria();
 
 -- ------------------------------------------------------------

@@ -4,11 +4,13 @@
 
 from flask import Blueprint, render_template, request
 from app.database import execute_query
+from app.utils import permiso_required
 
 auditoria_bp = Blueprint("auditoria", __name__)
 
 
 @auditoria_bp.route("/auditoria")
+@permiso_required("auditoria", "ver")
 def listar():
     # Filtros opcionales
     fecha  = request.args.get("fecha", "")

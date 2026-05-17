@@ -4,11 +4,13 @@
 
 from flask import Blueprint, render_template, request, redirect, url_for, flash
 from app.database import execute_query
+from app.utils import permiso_required
 
 profesional_bp = Blueprint("profesional", __name__)
 
 
 @profesional_bp.route("/profesionales")
+@permiso_required("profesionales", "ver")
 def listar():
     rows = execute_query(
         """
@@ -23,6 +25,7 @@ def listar():
 
 
 @profesional_bp.route("/profesionales/nuevo", methods=["GET", "POST"])
+@permiso_required("profesionales", "crear")
 def crear():
     especialidades = execute_query(
         "SELECT id_especialidad, nombre FROM especialidad ORDER BY nombre",
@@ -60,6 +63,7 @@ def crear():
 
 
 @profesional_bp.route("/profesionales/<int:id>/editar", methods=["GET", "POST"])
+@permiso_required("profesionales", "editar")
 def editar(id):
     profesional = execute_query(
         "SELECT * FROM profesional WHERE id_profesional = %s",
@@ -107,6 +111,7 @@ def editar(id):
 
 
 @profesional_bp.route("/profesionales/<int:id>/eliminar", methods=["POST"])
+@permiso_required("profesionales", "eliminar")
 def eliminar(id):
     try:
         execute_query(

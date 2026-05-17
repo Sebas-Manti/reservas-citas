@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block title %}Usuarios{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Usuarios</h1>
+    <a href="{{ url_for('usuario.crear') }}" class="btn btn-primary">+ Nuevo</a>
+</div>
+
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Email</th>
+            <th>Perfil</th>
+            <th>Cliente vinculado</th>
+            <th>Profesional vinculado</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for u in usuarios %}
+        <tr>
+            <td>{{ u.id_usuario }}</td>
+            <td>{{ u.email }}</td>
+            <td>
+                <span class="badge badge-perfil-{{ u.perfil_nombre }}">
+                    {{ u.perfil_nombre }}
+                </span>
+            </td>
+            <td>{{ u.cliente_nombre or '—' }}</td>
+            <td>{{ u.profesional_nombre or '—' }}</td>
+            <td>
+                <a href="{{ url_for('usuario.editar', id=u.id_usuario) }}"
+                   class="btn btn-warning">Editar</a>
+                <form method="POST"
+                      action="{{ url_for('usuario.eliminar', id=u.id_usuario) }}"
+                      style="display:inline"
+                      onsubmit="return confirm('¿Eliminar este usuario?')">
+                    <button type="submit" class="btn btn-danger">Eliminar</button>
+                </form>
+            </td>
+        </tr>
+        {% else %}
+        <tr><td colspan="6">No hay usuarios registrados.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

@@ -83,3 +83,65 @@ INSERT INTO notificacion (id_cita, tipo, mensaje) VALUES
     (3, 'CONFIRMACION', 'Cita de terapia confirmada.'),
     (4, 'CONFIRMACION', 'Cita de nutrición confirmada.'),
     (1, 'RECORDATORIO', 'Su cita es en 24 horas.');
+
+-- ------------------------------------------------------------
+-- 8. PERFIL (3 roles)
+-- ------------------------------------------------------------
+INSERT INTO perfil (nombre) VALUES
+    ('admin'),
+    ('profesional'),
+    ('cliente');
+
+-- ------------------------------------------------------------
+-- 9. ACTIVIDAD (8 módulos del sistema)
+-- ------------------------------------------------------------
+INSERT INTO actividad (nombre, descripcion) VALUES
+    ('especialidades',  'Gestión de especialidades médicas'),
+    ('profesionales',   'Gestión de profesionales'),
+    ('clientes',        'Gestión de clientes'),
+    ('servicios',       'Gestión de servicios'),
+    ('slots',           'Gestión de slots de disponibilidad'),
+    ('citas',           'Gestión de citas'),
+    ('notificaciones',  'Visualización de notificaciones'),
+    ('auditoria',       'Reporte de auditoría del sistema');
+
+-- ------------------------------------------------------------
+-- 10. GESTION_ACTIVIDAD — permisos por perfil
+-- admin: todo
+-- profesional: ver todo su ámbito, sin eliminar
+-- cliente: solo citas (ver, crear, cancelar vía update)
+-- ------------------------------------------------------------
+
+-- ADMIN — acceso total
+INSERT INTO gestion_actividad (id_perfil, id_actividad, puede_ver, puede_crear, puede_editar, puede_eliminar)
+SELECT 1, id_actividad, TRUE, TRUE, TRUE, TRUE FROM actividad;
+
+-- PROFESIONAL
+INSERT INTO gestion_actividad (id_perfil, id_actividad, puede_ver, puede_crear, puede_editar, puede_eliminar)
+VALUES
+    (2, 1, TRUE,  FALSE, FALSE, FALSE), -- especialidades: solo ver
+    (2, 2, TRUE,  FALSE, FALSE, FALSE), -- profesionales: solo ver
+    (2, 3, TRUE,  FALSE, FALSE, FALSE), -- clientes: solo ver (los que tienen citas con él)
+    (2, 4, TRUE,  FALSE, FALSE, FALSE), -- servicios: solo ver
+    (2, 5, TRUE,  TRUE,  TRUE,  FALSE), -- slots: ver, crear, editar
+    (2, 6, TRUE,  FALSE, FALSE, FALSE), -- citas: solo ver las suyas
+    (2, 7, TRUE,  FALSE, FALSE, FALSE), -- notificaciones: solo ver
+    (2, 8, FALSE, FALSE, FALSE, FALSE); -- auditoria: sin acceso
+
+-- CLIENTE
+INSERT INTO gestion_actividad (id_perfil, id_actividad, puede_ver, puede_crear, puede_editar, puede_eliminar)
+VALUES
+    (3, 1, FALSE, FALSE, FALSE, FALSE), -- especialidades: sin acceso
+    (3, 2, FALSE, FALSE, FALSE, FALSE), -- profesionales: sin acceso
+    (3, 3, FALSE, FALSE, FALSE, FALSE), -- clientes: sin acceso
+    (3, 4, TRUE,  FALSE, FALSE, FALSE), -- servicios: solo ver
+    (3, 5, TRUE,  FALSE, FALSE, FALSE), -- slots: solo ver disponibles
+    (3, 6, TRUE,  TRUE,  TRUE,  FALSE), -- citas: ver, crear, editar (cancelar)
+    (3, 7, TRUE,  FALSE, FALSE, FALSE), -- notificaciones: solo ver las suyas
+    (3, 8, FALSE, FALSE, FALSE, FALSE); -- auditoria: sin acceso
+
+-- ------------------------------------------------------------
+-- 11. USUARIOS de prueba
+-- Passwords hasheadas con werkzeug (valor: "admin123", "prof123", "cliente123")
+-- Las generamos desde Python — por ahora las dejamos pendientes
+-- ------------------------------------------------------------

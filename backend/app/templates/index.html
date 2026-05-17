@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}Inicio{% endblock %}
+
+{% block content %}
+<h1>Bienvenido, {{ session.usuario_email }}</h1>
+<p style="color:#666; margin-top:0.5rem;">
+    Perfil: <strong>{{ session.usuario_perfil }}</strong>
+</p>
+<p style="margin-top:1rem;">Selecciona un módulo del menú para comenzar.</p>
+{% endblock %}
