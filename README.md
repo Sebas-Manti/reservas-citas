@@ -1,4 +1,4 @@
-# Reservas-Citas 🏥
+# Reservas-Citas
 
 Sistema web de reserva de citas médicas desarrollado con Flask y PostgreSQL.
 Proyecto académico — Bases de Datos
