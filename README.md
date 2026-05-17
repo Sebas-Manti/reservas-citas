@@ -94,7 +94,6 @@ cp .env.example .env
 
 ```bash
 docker compose up -d
-docker compose ps  # Verificar que esté healthy
 ```
 
 ### 4. Crear estructura y datos en la BD
