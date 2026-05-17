@@ -36,6 +36,102 @@ Proyecto académico — Bases de Datos
 | `usuario` | Usuarios con autenticación y rol asignado |
 | `auditoria` | Registro automático de cambios via triggers |
 
+```mermaid
+erDiagram
+  especialidad {
+    serial id_especialidad PK
+    varchar nombre
+    text descripcion
+  }
+  profesional {
+    serial id_profesional PK
+    varchar nombre
+    varchar apellido
+    varchar email
+    int id_especialidad FK
+    boolean activo
+  }
+  cliente {
+    serial id_cliente PK
+    varchar nombre
+    varchar apellido
+    varchar telefono
+    varchar email
+    varchar contrasena_hash
+    timestamp fecha_registro
+  }
+  servicio {
+    serial id_servicio PK
+    varchar nombre
+    int duracion_min
+    decimal precio
+    int id_especialidad FK
+  }
+  slot {
+    serial id_slot PK
+    int id_profesional FK
+    timestamp fecha_hora_inicio
+    timestamp fecha_hora_fin
+    varchar estado
+  }
+  cita {
+    serial id_cita PK
+    int id_cliente FK
+    int id_profesional FK
+    int id_servicio FK
+    int id_slot FK
+    varchar estado
+    timestamp fecha_creacion
+    text notas
+  }
+  notificacion {
+    serial id_notif PK
+    int id_cita FK
+    varchar tipo
+    text mensaje
+    timestamp fecha_envio
+  }
+  perfil {
+    serial id_perfil PK
+    varchar nombre
+  }
+  actividad {
+    serial id_actividad PK
+    varchar nombre
+    text descripcion
+  }
+  gestion_actividad {
+    serial id_gestion PK
+    int id_perfil FK
+    int id_actividad FK
+    boolean puede_ver
+    boolean puede_crear
+    boolean puede_editar
+    boolean puede_eliminar
+  }
+  usuario {
+    serial id_usuario PK
+    varchar email
+    varchar password_hash
+    int id_perfil FK
+    int id_cliente FK
+    int id_profesional FK
+  }
+
+  especialidad ||--o{ profesional : "tiene"
+  especialidad ||--o{ servicio : "agrupa"
+  profesional ||--o{ slot : "tiene"
+  profesional ||--o{ cita : "atiende"
+  cliente ||--o{ cita : "agenda"
+  servicio ||--o{ cita : "se presta en"
+  slot ||--o| cita : "reservado en"
+  cita ||--o{ notificacion : "genera"
+  perfil ||--o{ gestion_actividad : "define"
+  actividad ||--o{ gestion_actividad : "controlada por"
+  perfil ||--o{ usuario : "asignado a"
+  cliente |o--o{ usuario : "vinculado"
+  profesional |o--o{ usuario : "vinculado"
+```
 ---
 ## Estructura del Proyecto
 
