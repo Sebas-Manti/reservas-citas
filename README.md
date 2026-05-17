@@ -167,7 +167,7 @@ El reporte de auditoría está disponible en `/auditoria` con filtros por fecha,
 
 ## Nombre de la base de datos
 
-`mmj_reservas_citas` — prefijo **MMJ** corresponde a las iniciales de **Mantilla Manzano John**.
+`DB_reservas_citas`
 
 ---
 
