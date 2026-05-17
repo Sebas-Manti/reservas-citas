@@ -37,22 +37,22 @@ Proyecto académico — Bases de Datos
 | `auditoria` | Registro automático de cambios via triggers |
 
 ---
-
 ## Estructura del Proyecto
 
+```
 reservas-citas/
 ├── backend/
-│   └── app/
-│       ├── models/
-│       ├── routers/          # Blueprints Flask por módulo
-│       ├── schemas/
-│       ├── static/
-│       │   └── css/
-│       └── templates/
-│           └── pages/        # HTML por módulo
-│       ├── database.py       # Pool de conexiones psycopg2
-│       ├── main.py           # App Flask
-│       └── utils.py          # Decoradores de permisos
+│   ├── app/
+│   │   ├── models/
+│   │   ├── routers/          # Blueprints Flask por módulo
+│   │   ├── schemas/
+│   │   ├── static/
+│   │   │   └── css/
+│   │   ├── templates/
+│   │   │   └── pages/        # HTML por módulo
+│   │   ├── database.py       # Pool de conexiones psycopg2
+│   │   ├── main.py           # App Flask
+│   │   └── utils.py          # Decoradores de permisos
 │   ├── Dockerfile
 │   └── requirements.txt
 ├── db/
@@ -64,7 +64,7 @@ reservas-citas/
 ├── .env.example
 ├── docker-compose.yml
 └── README.md
-
+```
 ---
 
 ## Requisitos
